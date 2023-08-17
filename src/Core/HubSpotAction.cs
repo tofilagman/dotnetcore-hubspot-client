@@ -27,6 +27,8 @@ namespace Skarp.HubSpotClient.Core
 
         ReadBatch,
 
-        Lists
+        Lists,
+
+        Recent
     }
 }
