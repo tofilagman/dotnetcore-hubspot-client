@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Skarp.HubSpotClient.Company;
 using Skarp.HubSpotClient.Engagement.Dto;
 using Flurl;
+using System.Collections.Generic;
 
 namespace Skarp.HubSpotClient.Engagement
 {
