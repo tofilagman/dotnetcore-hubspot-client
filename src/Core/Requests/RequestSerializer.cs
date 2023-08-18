@@ -4,6 +4,7 @@ using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Skarp.HubSpotClient.Core.Interfaces;
+using Skarp.HubSpotClient.CustomObjects.Interfaces;
 
 namespace Skarp.HubSpotClient.Core.Requests
 {
@@ -53,20 +54,23 @@ namespace Skarp.HubSpotClient.Core.Requests
         /// <returns>The serialized entity</returns>
         public virtual string SerializeEntity(object obj, bool performConversion)
         {
-            if (obj is IHubSpotEntity entity)
-            {
-                var converted = _requestDataConverter.ToHubspotDataEntity(entity, performConversion);
-
-                entity.ToHubSpotDataEntity(ref converted);
-
-                return JsonConvert.SerializeObject(
-                    converted,
-                    _jsonSerializerSettings);
-            }
-
-            return JsonConvert.SerializeObject(
-                obj,
-                _jsonSerializerSettings);
+            switch (obj)
+            { 
+                case ICustomObjectHubSpotEntity customEntity:
+                    {
+                        var converted = _requestDataConverter.ToHubspotDataCustomEntity(customEntity);
+                        customEntity.ToHubSpotDataEntity(ref converted);
+                        return JsonConvert.SerializeObject(converted, _jsonSerializerSettings);
+                    }
+                case IHubSpotEntity entity:
+                    {
+                        var converted = _requestDataConverter.ToHubspotDataEntity(entity, performConversion);
+                        entity.ToHubSpotDataEntity(ref converted);
+                        return JsonConvert.SerializeObject(converted, _jsonSerializerSettings);
+                    } 
+                default:
+                    return JsonConvert.SerializeObject(obj, _jsonSerializerSettings);
+            } 
         }
 
         /// <summary>
@@ -78,7 +82,7 @@ namespace Skarp.HubSpotClient.Core.Requests
         {
             var result = new StringBuilder("[");
 
-            for (int i = 0; i < objs.Count; i++)
+            for (var i = 0; i < objs.Count; i++)
             {
                 var obj = objs[i];
                 if (obj is IHubSpotEntity entity)
@@ -116,7 +120,7 @@ namespace Skarp.HubSpotClient.Core.Requests
         {
             var result = new StringBuilder("[");
 
-            for (int i = 0; i < objs.Count; i++)
+            for (var i = 0; i < objs.Count; i++)
             {
                 var obj = objs[i];
 
