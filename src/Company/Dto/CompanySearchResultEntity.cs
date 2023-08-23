@@ -4,19 +4,20 @@ using System.Runtime.Serialization;
 using System.Text;
 using Skarp.HubSpotClient.Company.Interfaces;
 using Skarp.HubSpotClient.Contact.Interfaces;
+using Skarp.HubSpotClient.Core.Interfaces;
 
 namespace Skarp.HubSpotClient.Company.Dto
 {
     [DataContract]
-    public class CompanySearchResultEntity<T> : ICompanySearchResultEntity<T> where T : ICompanyHubSpotEntity
+    public class CompanySearchResultEntity : IHubSpotEntity
     {
         [DataMember(Name = "results")]
-        public IList<T> Results { get; set; }
+        public IList<CompanySearchHubSpotEntity> Results { get; set; }
 
         [DataMember(Name = "hasMore")]
         public bool MoreResultsAvailable { get; set; }
 
-        [DataMember(Name="offset")]
+        [DataMember(Name = "offset")]
         public CompanySearchOffset Offset { get; set; }
 
         public bool IsNameValue => false;
@@ -27,7 +28,7 @@ namespace Skarp.HubSpotClient.Company.Dto
 
         public virtual void FromHubSpotDataEntity(dynamic hubspotData)
         {
-            
+
         }
     }
 }

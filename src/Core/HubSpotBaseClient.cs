@@ -20,7 +20,7 @@ namespace Skarp.HubSpotClient.Core
         protected readonly ILogger Logger;
         protected readonly RequestSerializer _serializer;
         protected readonly string HubSpotBaseUrl;
-        
+
         private readonly string _apiKeyOrToken;
 
         protected HubSpotBaseClient(
@@ -160,7 +160,7 @@ namespace Skarp.HubSpotClient.Core
                 absoluteUriPath,
                 httpMethod,
                 null,
-                responseData => (T) _serializer.DeserializeListEntity<T>(responseData));
+                responseData => (T)_serializer.DeserializeListEntity<T>(responseData));
 
             return data;
         }
@@ -182,7 +182,10 @@ namespace Skarp.HubSpotClient.Core
                 absoluteUriPath,
                 httpMethod,
                 json,
-                responseData => (T)_serializer.DeserializeListEntity<T>(responseData));
+                responseData =>
+                {
+                    return (T)_serializer.DeserializeListEntity<T>(responseData);
+                });
 
             return data;
         }
@@ -202,7 +205,7 @@ namespace Skarp.HubSpotClient.Core
                 absoluteUriPath,
                 httpMethod,
                 null,
-                responseData => (T) _serializer.DeserializeEntity<T>(responseData)
+                responseData => (T)_serializer.DeserializeEntity<T>(responseData)
             );
 
             return data;
@@ -238,7 +241,7 @@ namespace Skarp.HubSpotClient.Core
                 absoluteUriPath,
                 httpMethod,
                 null,
-                responseData => (T) _serializer.DeserializeEntity<T>(responseData));
+                responseData => (T)_serializer.DeserializeEntity<T>(responseData));
         }
 
         protected async Task<T> ListPropertiesAsync<T>(string absoluteUriPath) where T : IHubSpotEntity, new()
@@ -285,9 +288,9 @@ namespace Skarp.HubSpotClient.Core
                 Logger.LogWarning("You are using a legacy hapikey, please convert to using private access tokens. Support ends 30'th Nov 2022 at HubSpot. See more here: https://developers.hubspot.com/docs/api/migrate-an-api-key-integration-to-a-private-app");
                 request.RequestUri = fullUrl.SetQueryParam("hapikey", _apiKeyOrToken).ToUri();
             }
-            
+
             Logger.LogDebug("Full url: '{FullUrl}'", fullUrl);
-            
+
             if (!string.IsNullOrWhiteSpace(json))
             {
                 request.Content = new JsonContent(json);

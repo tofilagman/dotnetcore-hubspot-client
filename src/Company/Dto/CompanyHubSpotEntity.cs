@@ -8,8 +8,8 @@ namespace Skarp.HubSpotClient.Company.Dto
     {
         [IgnoreDataMember]
         [DataMember(Name = "companyId")]
-        public long? Id { get; set; }
-  
+        public long Id { get; set; }
+
         [DataMember(Name = "hubspot_owner_id")]
         public long? OwnerId { get; set; }
 
@@ -17,13 +17,13 @@ namespace Skarp.HubSpotClient.Company.Dto
         public string Name { get; set; }
 
         [DataMember(Name = "domain")]
-        public string Domain { get; set; }
+        public string? Domain { get; set; }
 
         [DataMember(Name = "website")]
-        public string Website { get; set; }
+        public string? Website { get; set; }
 
         [DataMember(Name = "description")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         public string RouteBasePath => "/companies/v2";
         public bool IsNameValue => true;
@@ -34,7 +34,7 @@ namespace Skarp.HubSpotClient.Company.Dto
 
         public virtual void FromHubSpotDataEntity(dynamic hubspotData)
         {
-            
+
         }
     }
 }

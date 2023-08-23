@@ -5,7 +5,7 @@ using Skarp.HubSpotClient.Core.Interfaces;
 
 namespace Skarp.HubSpotClient.Company.Interfaces
 {
-    public interface ICompanySearchResultEntity<T> : IHubSpotEntity where T : ICompanyHubSpotEntity
+    public interface ICompanySearchResultEntity<T> : IHubSpotEntity where T : IHubSpotEntity
     {
         IList<T> Results { get; set; }
 

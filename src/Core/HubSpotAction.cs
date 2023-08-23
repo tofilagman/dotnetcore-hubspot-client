@@ -29,6 +29,8 @@ namespace Skarp.HubSpotClient.Core
 
         Lists,
 
-        Recent
+        Recent,
+
+        Search
     }
 }

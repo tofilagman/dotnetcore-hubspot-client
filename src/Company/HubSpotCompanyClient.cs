@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -102,6 +103,37 @@ namespace Skarp.HubSpotClient.Company
         }
 
         /// <summary>
+        /// Search Company
+        /// </summary>
+        /// <param name="email"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public async Task<T> SearchAsync<T>(string name) where T : IHubSpotEntity, new()
+        {
+            var model = new CompanySearchRequestOptions
+            {
+                FilterGroups = new List<RequestFilterGroup>
+                    {
+                       new RequestFilterGroup
+                       {
+                            Filters = new List<RequestFilter>
+                            {
+                                 new RequestFilter
+                                 {
+                                      PropertyName = "name",
+                                      Value = name
+                                 }
+                            }
+                       }
+                    }
+            };
+
+            var path = PathResolver(model, HubSpotAction.Search);
+            var data = await ListAsPostAsync<T>(path, model);
+            return data;
+        }
+
+        /// <summary>
         /// List Companies 
         /// </summary>
         /// <param name="opts">Request options - use for pagination</param>
@@ -170,7 +202,7 @@ namespace Skarp.HubSpotClient.Company
         /// <param name="action"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public string PathResolver(ICompanyHubSpotEntity entity, HubSpotAction action)
+        public string PathResolver(IRouteBasePath entity, HubSpotAction action)
         {
             switch (action)
             {
@@ -186,6 +218,8 @@ namespace Skarp.HubSpotClient.Company
                     return $"{entity.RouteBasePath}/companies/:companyId:";
                 case HubSpotAction.Delete:
                     return $"{entity.RouteBasePath}/companies/:companyId:";
+                case HubSpotAction.Search:
+                    return $"{entity.RouteBasePath}/companies/search";
                 default:
                     throw new ArgumentOutOfRangeException(nameof(action), action, null);
             }

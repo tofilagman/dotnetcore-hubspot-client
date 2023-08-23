@@ -207,7 +207,7 @@ namespace Skarp.HubSpotClient.Core.Requests
 
             // Convert all the entities
             var jsonEntities = expandoDict[propSerializedName];
-            foreach (var entry in (List<object>) jsonEntities)
+            foreach (var entry in (List<object>)jsonEntities)
             {
                 // convert single entity
                 var expandoEntry = entry as ExpandoObject;
@@ -324,11 +324,11 @@ namespace Skarp.HubSpotClient.Core.Requests
                 // prop.Value contains the data returned by HubSpot, which is also an object 
                 // in there we need to go get the "value" prop to get the actual value
                 _logger.LogDebug("Looking at dynamic prop: {0}", dynamicProp.Key);
-                 
+
                 object dynamicValue = null;
 
                 dynamicValue = dynamicProp.Value is IDictionary<string, object> objects ? objects.TryGetValue("value", out dynamicValue) : dynamicProp.Value;
-                 
+
                 var targetProp = dtoProps.SingleOrDefault(q => q.GetPropSerializedName() == dynamicProp.Key);
                 _logger.LogDebug("Have target prop? '{0}' with name: '{1}' and actual value: '{2}'", targetProp != null, dynamicProp.Key, dynamicValue);
 
@@ -351,9 +351,10 @@ namespace Skarp.HubSpotClient.Core.Requests
                         dynamicValue = DateTimeOffset.FromUnixTimeMilliseconds(milliseconds);
                 }
 
-                targetProp?.SetValue(dto, dynamicValue.GetType() == targetProp.PropertyType 
-                    ? dynamicValue 
-                    : Convert.ChangeType(dynamicValue, Nullable.GetUnderlyingType(targetProp.PropertyType) ?? targetProp.PropertyType));
+                if (dynamicValue != null)
+                    targetProp?.SetValue(dto, dynamicValue.GetType() == targetProp.PropertyType
+                        ? dynamicValue
+                        : Convert.ChangeType(dynamicValue, Nullable.GetUnderlyingType(targetProp.PropertyType) ?? targetProp.PropertyType));
             }
 
             return dto;
