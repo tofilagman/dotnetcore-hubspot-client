@@ -48,9 +48,9 @@ namespace Skarp.HubSpotClient.Engagement.Notes.Dto
         {
             var prop = new Dictionary<string, object>
             {
-               { "hs_timestamp" , TimeStamp },
+                { "hs_timestamp" , TimeStamp },
                 { "hs_note_body", Note },
-                {"hubspot_owner_id", OwnerId }
+                //{"hubspot_owner_id", OwnerId }
             };
 
             dataEntity.Properties = prop;
