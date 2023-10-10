@@ -108,7 +108,7 @@ namespace Skarp.HubSpotClient.Company
         /// <param name="email"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public async Task<T> SearchAsync<T>(string name) where T : IHubSpotEntity, new()
+        public async Task<T> SearchAsync<T>(string name, object value) where T : IHubSpotEntity, new()
         {
             var model = new CompanySearchRequestOptions
             {
@@ -120,8 +120,8 @@ namespace Skarp.HubSpotClient.Company
                             {
                                  new RequestFilter
                                  {
-                                      PropertyName = "name",
-                                      Value = name
+                                      PropertyName = name,
+                                      Value = value
                                  }
                             }
                        }

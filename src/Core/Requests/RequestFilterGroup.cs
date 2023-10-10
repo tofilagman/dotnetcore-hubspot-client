@@ -16,7 +16,7 @@ namespace Skarp.HubSpotClient.Core.Requests
     public class RequestFilter
     {
         [DataMember(Name = "value")]
-        public string Value { get; set; }
+        public object Value { get; set; }
         [DataMember(Name = "highValue")]
         public string HighValue { get; set; }
         [DataMember(Name = "values")]
