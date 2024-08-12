@@ -226,5 +226,16 @@ namespace Skarp.HubSpotClient.Core.Requests
             }
             return convertedList;
         }
-    }
+
+        public virtual List<string> GetEntityPropertyMapping<T>() where T : IHubSpotEntity
+        {
+            return _requestDataConverter.GetPropertyMapping<T>();
+        }
+
+        public virtual List<string> GetAssociationMapping<T>() where T : IHubSpotEntity
+        {
+            return _requestDataConverter.GetAssociationMapping<T>();
+        }
+     }
 }
+ 

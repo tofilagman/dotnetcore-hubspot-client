@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Skarp.HubSpotClient.Contact.Interfaces;
+using Skarp.HubSpotClient.Core.Associations;
 
 namespace Skarp.HubSpotClient.Contact.Dto
 {
@@ -44,6 +45,8 @@ namespace Skarp.HubSpotClient.Contact.Dto
         public long ContinuationOffset { get; set; }
 
         public string RouteBasePath => "/contacts/v1";
+
+        public List<HubSpotAssociationResult> Associations { get; set; }
 
         public bool IsNameValue => false;
         public virtual void ToHubSpotDataEntity(ref dynamic converted)

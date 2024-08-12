@@ -11,6 +11,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Flurl;
 using Skarp.HubSpotClient.Common.Interfaces;
+using System.Collections.Generic;
 
 namespace Skarp.HubSpotClient.Deal
 {
@@ -131,6 +132,37 @@ namespace Skarp.HubSpotClient.Deal
             await DeleteAsync<DealHubSpotEntity>(path);
         }
 
+        /// <summary>
+        /// Search Company
+        /// </summary>
+        /// <param name="email"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public async Task<T> SearchAsync<T>(string name, object value) where T : IHubSpotEntity, new()
+        {
+            var model = new DealSearchRequestOptions
+            {
+                FilterGroups = new List<RequestFilterGroup>
+                    {
+                       new RequestFilterGroup
+                       {
+                            Filters = new List<RequestFilter>
+                            {
+                                 new RequestFilter
+                                 {
+                                      PropertyName = name,
+                                      Value = value
+                                 }
+                            }
+                       }
+                    }
+            };
+
+            var path = PathResolver(model, HubSpotAction.Search);
+            var data = await ListAsPostAsync<T>(path, model);
+            return data;
+        }
+
         public async Task<T> GetPropertiesAsync<T>() where T : IHubSpotEntity, new()
         {
             Logger.LogDebug("Deal GetPropertiesAsync");
@@ -149,7 +181,7 @@ namespace Skarp.HubSpotClient.Deal
         /// <param name="action"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public string PathResolver(IDealHubSpotEntity entity, HubSpotAction action)
+        public string PathResolver(IRouteBasePath entity, HubSpotAction action)
         {
             switch (action)
             {
@@ -163,6 +195,8 @@ namespace Skarp.HubSpotClient.Deal
                     return $"{entity.RouteBasePath}/deal/:dealId:";
                 case HubSpotAction.Delete:
                     return $"{entity.RouteBasePath}/deal/:dealId:";
+                case HubSpotAction.Search:
+                    return $"{entity.RouteBasePath}/deal/search";
                 default:
                     throw new ArgumentOutOfRangeException(nameof(action), action, null);
             }

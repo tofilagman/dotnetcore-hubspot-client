@@ -1,4 +1,5 @@
-﻿using Skarp.HubSpotClient.CustomObjects.Interfaces;
+﻿using Skarp.HubSpotClient.Core.Associations;
+using Skarp.HubSpotClient.CustomObjects.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,6 +12,8 @@ namespace Skarp.HubSpotClient.CustomObjects.Dto
         public string ObjectTypeId { get; set; }
         public string RouteBasePath => "/crm/v3/objects";
         public bool IsNameValue => false;
+        public List<HubSpotAssociationResult> Associations { get; set; }
+
         public void ToHubSpotDataEntity(ref dynamic dataEntity) { }
         public void FromHubSpotDataEntity(dynamic hubspotData) { }
     }

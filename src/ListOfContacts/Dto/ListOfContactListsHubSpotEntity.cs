@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Skarp.HubSpotClient.Core.Associations;
 using Skarp.HubSpotClient.Core.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -78,6 +79,8 @@ namespace Skarp.HubSpotClient.ListOfContacts.Dto
         public bool HasMore { get; set; }
 
         public bool IsNameValue => false;
+
+        public List<HubSpotAssociationResult> Associations { get; set; }
 
         public virtual void ToHubSpotDataEntity(ref dynamic dataEntity)
         {

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Skarp.HubSpotClient.Common.Interfaces;
+using Skarp.HubSpotClient.Core.Associations;
 
 namespace Skarp.HubSpotClient.Common.Dto.Properties
 {
@@ -31,6 +32,8 @@ namespace Skarp.HubSpotClient.Common.Dto.Properties
         public bool IsNameValue => false;
 
         public string RouteBasePath => "/properties/v1";
+
+        public List<HubSpotAssociationResult> Associations { get; set; }
 
         public virtual void ToHubSpotDataEntity(ref dynamic dataEntity)
         {

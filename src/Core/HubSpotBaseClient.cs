@@ -205,8 +205,10 @@ namespace Skarp.HubSpotClient.Core
                 absoluteUriPath,
                 httpMethod,
                 null,
-                responseData => (T)_serializer.DeserializeEntity<T>(responseData)
-            );
+                responseData =>
+                {
+                    return (T)_serializer.DeserializeEntity<T>(responseData);
+                });
 
             return data;
         }

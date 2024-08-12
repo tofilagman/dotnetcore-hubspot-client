@@ -1,4 +1,5 @@
-﻿using Skarp.HubSpotClient.Engagement.Interfaces;
+﻿using Skarp.HubSpotClient.Core.Associations;
+using Skarp.HubSpotClient.Engagement.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
@@ -19,8 +20,8 @@ namespace Skarp.HubSpotClient.Engagement.Dto
         [DataMember(Name = "engagement")]
         public Engagement Engagement { get; set; }
 
-        [DataMember(Name = "associations")]
-        public EngagementAssociations Associations { get; set; }
+        //[DataMember(Name = "associations")]
+        //public EngagementAssociations Associations { get; set; }
 
         [DataMember(Name = "attachments")]
         public List<EngagementAttachment> Attachments { get; set; } = new List<EngagementAttachment>();
@@ -30,6 +31,7 @@ namespace Skarp.HubSpotClient.Engagement.Dto
 
         public string RouteBasePath => "/engagements/v1";
         public bool IsNameValue => false;
+        public List<HubSpotAssociationResult> Associations { get; set; }
         public virtual void ToHubSpotDataEntity(ref dynamic converted)
         {
 

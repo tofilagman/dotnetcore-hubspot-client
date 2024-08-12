@@ -1,25 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Text;
-using Skarp.HubSpotClient.Company.Interfaces;
-using Skarp.HubSpotClient.Contact.Interfaces;
+using System.Runtime.Serialization; 
 using Skarp.HubSpotClient.Core.Associations;
 using Skarp.HubSpotClient.Core.Interfaces;
 
-namespace Skarp.HubSpotClient.Company.Dto
+namespace Skarp.HubSpotClient.Deal.Dto
 {
     [DataContract]
-    public class CompanySearchResultEntity : IHubSpotEntity
+    public class DealSearchResultEntity : IHubSpotEntity
     {
         [DataMember(Name = "results")]
-        public IList<CompanySearchHubSpotEntity> Results { get; set; }
+        public IList<DealSearchHubSpotEntity> Results { get; set; }
 
         [DataMember(Name = "hasMore")]
         public bool MoreResultsAvailable { get; set; }
 
         [DataMember(Name = "offset")]
-        public CompanySearchOffset Offset { get; set; }
+        public DealSearchOffset Offset { get; set; }
 
         public bool IsNameValue => false;
 

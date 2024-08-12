@@ -76,9 +76,14 @@ namespace Skarp.HubSpotClient.Company
         public async Task<T> GetByIdAsync<T>(long CompanyId) where T : IHubSpotEntity, new()
         {
             Logger.LogDebug("Company Get by id ");
-            var path = PathResolver(new CompanyHubSpotEntity(), HubSpotAction.Get)
+            var path = PathResolver(Activator.CreateInstance<T>() as IRouteBasePath, HubSpotAction.Get)
                 .Replace(":companyId:", CompanyId.ToString());
-            var data = await GetAsync<T>(path);
+            var param = new RequestParamBuilder();
+            param.Add(_serializer.GetEntityPropertyMapping<T>(), "properties");
+            param.Add(_serializer.GetAssociationMapping<T>(), "associations");
+              
+            var pth = $"{path}?archived=false{param}"; 
+            var data = await GetAsync<T>(pth);
             return data;
         }
 
@@ -209,7 +214,7 @@ namespace Skarp.HubSpotClient.Company
                 case HubSpotAction.Create:
                     return $"{entity.RouteBasePath}/companies";
                 case HubSpotAction.Get:
-                    return $"{entity.RouteBasePath}/companies/:companyId:";
+                    return $"{entity.RouteBasePath}/companies/:companyId:"; ///companies/v2/companies/20741304333
                 case HubSpotAction.GetByEmail:
                     return $"{entity.RouteBasePath}/domains/:domain:/companies";
                 case HubSpotAction.List:

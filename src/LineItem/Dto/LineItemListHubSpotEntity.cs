@@ -1,4 +1,5 @@
-﻿using Skarp.HubSpotClient.LineItem.Interfaces;
+﻿using Skarp.HubSpotClient.Core.Associations;
+using Skarp.HubSpotClient.LineItem.Interfaces;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
@@ -46,6 +47,8 @@ namespace Skarp.HubSpotClient.LineItem.Dto
         public string RouteBasePath => "/crm-objects/v1/objects";
 
         public bool IsNameValue => false;
+
+        public List<HubSpotAssociationResult> Associations { get; set; }
 
         public virtual void ToHubSpotDataEntity(ref dynamic converted)
         {

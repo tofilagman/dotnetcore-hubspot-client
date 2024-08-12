@@ -4,10 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace Skarp.HubSpotClient.Company.Dto
+namespace Skarp.HubSpotClient.Deal.Dto
 {
     [DataContract]
-    public class CompanySearchHubSpotEntity : IHubSpotEntity
+    public class DealSearchHubSpotEntity : IHubSpotEntity
     {
         [DataMember(Name = "hs_object_id")]
         public long Id { get; set; }

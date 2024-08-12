@@ -1,4 +1,5 @@
-﻿using Skarp.HubSpotClient.Engagement.Dto;
+﻿using Skarp.HubSpotClient.Core.Associations;
+using Skarp.HubSpotClient.Engagement.Dto;
 using Skarp.HubSpotClient.Engagement.Notes.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -38,6 +39,8 @@ namespace Skarp.HubSpotClient.Engagement.Notes.Dto
         public string RouteBasePath => "/crm/v3";
 
         public bool IsNameValue => false;
+
+        public List<HubSpotAssociationResult> Associations { get; set; }
 
         public void FromHubSpotDataEntity(dynamic hubspotData)
         {

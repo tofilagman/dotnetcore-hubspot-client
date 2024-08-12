@@ -5,7 +5,9 @@ using System.Dynamic;
 using System.Linq;
 using System.Reflection;
 using Microsoft.Extensions.Logging;
+using Skarp.HubSpotClient.Core.Associations;
 using Skarp.HubSpotClient.Core.Interfaces;
+using z.Data;
 
 namespace Skarp.HubSpotClient.Core.Requests
 {
@@ -166,6 +168,23 @@ namespace Skarp.HubSpotClient.Core.Requests
         {
             var data = (T)ConvertSingleEntity(dynamicObject, new T());
             return data;
+        }
+
+        public List<string> GetPropertyMapping<T>() where T : IHubSpotEntity
+        {
+            var dataProps = typeof(T).GetProperties();
+            return GetAllPropsWithSerializedNameAsKey(dataProps)
+                .Where(x => !x.Value.HasIgnoreDataMemberAttribute())
+                .Select(x => x.Key).ToList();
+        }
+
+        public List<string> GetAssociationMapping<T>() where T : IHubSpotEntity
+        {
+            var dataProps = typeof(T).GetCustomAttribute<HubSpotAssociation>();
+            if(dataProps == null)
+                return [];
+
+            return dataProps.Names;
         }
 
         public T FromHubSpotListResponse<T>(ExpandoObject dynamicObject) where T : IHubSpotEntity, new()
@@ -356,6 +375,23 @@ namespace Skarp.HubSpotClient.Core.Requests
                         ? dynamicValue
                         : Convert.ChangeType(dynamicValue, Nullable.GetUnderlyingType(targetProp.PropertyType) ?? targetProp.PropertyType));
             }
+             
+            if (!expandoDict.TryGetValue("associations", out var dynamicAssociations)) return dto;
+
+            var assocProp = dtoProps.Single(x => x.Name == "Associations");
+            var apc = new List<HubSpotAssociationResult>();
+
+            foreach (var dynamicProp in (ExpandoObject)dynamicAssociations)
+            {  
+                var res = new HubSpotAssociationResult();
+                res.Type = dynamicProp.Key; 
+                var resp = (IDictionary<string, object>)dynamicProp.Value;
+                var xpc = resp["results"].ToJson().ToObject<List<AssociationPair>>();
+                res.Id = xpc.Select(x => x.id).Distinct().ToList(); 
+                apc.Add(res); 
+            }
+
+            assocProp.SetValue(dto, apc);
 
             return dto;
         }

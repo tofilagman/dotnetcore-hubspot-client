@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Skarp.HubSpotClient.Common.Interfaces;
+using Skarp.HubSpotClient.Core.Associations;
 using Skarp.HubSpotClient.Core.Interfaces;
 
 namespace Skarp.HubSpotClient.Common.Dto.Properties
@@ -39,6 +40,8 @@ namespace Skarp.HubSpotClient.Common.Dto.Properties
 
         public bool IsReadOnly
             => false;
+
+        public List<HubSpotAssociationResult> Associations { get; set; }
 
         public virtual void ToHubSpotDataEntity(ref dynamic dataEntity)
         {

@@ -1,4 +1,5 @@
-﻿using Skarp.HubSpotClient.Core.Interfaces;
+﻿using Skarp.HubSpotClient.Core.Associations;
+using Skarp.HubSpotClient.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
@@ -13,6 +14,7 @@ namespace Skarp.HubSpotClient.Engagement.Dto
         public List<EngagementHubSpotEntity> Results { get; set; }
 
         public bool IsNameValue => false;
+        public List<HubSpotAssociationResult> Associations { get; set; }
 
         public void FromHubSpotDataEntity(dynamic hubspotData)
         {

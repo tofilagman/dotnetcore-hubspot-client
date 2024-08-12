@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 using RapidCore.Reflection;
@@ -98,6 +100,11 @@ namespace Skarp.HubSpotClient.Core
                 return false;
 
             return true;
+        }
+
+        public static string AsUriListParameter(this List<string> obj, string paramName)
+        {
+            return string.Join("&", obj.Select(x=> $"{paramName}={x}").ToArray());
         }
     }
 }

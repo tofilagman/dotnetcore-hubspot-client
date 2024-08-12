@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Skarp.HubSpotClient.Core.Associations;
 using Skarp.HubSpotClient.Deal.Interfaces;
 
 namespace Skarp.HubSpotClient.Deal.Dto
@@ -46,6 +47,8 @@ namespace Skarp.HubSpotClient.Deal.Dto
         public string RouteBasePath => "/deals/v1";
 
         public bool IsNameValue => false;
+
+        public List<HubSpotAssociationResult> Associations { get; set; }
 
         public List<string> PropertiesToInclude { get; set; } = new List<string>();
 

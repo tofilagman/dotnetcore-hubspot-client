@@ -32,6 +32,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="RapidCore" Version="0.27.3" />
     <PackageReference Include="System.Reflection.TypeExtensions" Version="4.7.0" />
+    <PackageReference Include="z.Data.Standard" Version="1.2.19" />
   </ItemGroup>
 
   <ItemGroup>

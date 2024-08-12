@@ -1,4 +1,6 @@
 ﻿using Skarp.HubSpotClient.Company.Interfaces;
+using Skarp.HubSpotClient.Core.Associations;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Skarp.HubSpotClient.Company.Dto
@@ -25,8 +27,11 @@ namespace Skarp.HubSpotClient.Company.Dto
         [DataMember(Name = "description")]
         public string? Description { get; set; }
 
-        public string RouteBasePath => "/companies/v2";
+        public virtual string RouteBasePath => "/companies/v2";
         public bool IsNameValue => true;
+
+        public List<HubSpotAssociationResult> Associations { get; set; }
+
         public virtual void ToHubSpotDataEntity(ref dynamic converted)
         {
 
